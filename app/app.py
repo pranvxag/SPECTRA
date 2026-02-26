@@ -396,7 +396,7 @@ if st.session_state.current_page == "Dashboard":
         <div class="metric-card-modern">
             <div class="metric-label">Total Students</div>
             <div class="metric-value">395</div>
-            <div style="color:#88B981;">↑ 12% from last year</div>
+            <div style="color:#88B981;">↑ 18% from last year</div>
         </div>
         """, unsafe_allow_html=True)
     
