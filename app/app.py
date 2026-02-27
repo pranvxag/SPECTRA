@@ -323,33 +323,141 @@ def load_ml_model():
 model, preprocessor, model_info = load_ml_model()
 
 # Professional Header
-st.markdown("""
-<div class="professional-header">
-    <h1 class="header-title">🎓 SPECTRA </h1>
-    <p class="header-subtitle">Advanced Student Performance Prediction & Early Warning System</p>
-    <p style="margin-top: 1rem; opacity: 0.9;">IIT Techkriti 2025 | Machine Learning Powered</p>
-</div>
-""", unsafe_allow_html=True)
+# After the professional header, replace the sidebar navigation with this:
 
-# Sidebar - Professional Navigation
-with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/student-center.png", width=80)
-    st.markdown("## 🧭 Navigation")
-    
-    nav_options = {
-        "📊 Dashboard": "Dashboard",
-        "🔮 Predictor": "Predictor",
-        "📈 Analytics": "Analytics",
-        "📚 Dataset Explorer": "Explorer",
-        "⚙️ Settings": "Settings"
+# Custom CSS for top navigation
+st.markdown("""
+<style>
+    /* Top Navigation Bar */
+    .top-nav-container {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 0.5rem;
+        margin: 0rem 0 2rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
     
-    for icon, page in nav_options.items():
-        if st.button(icon, use_container_width=True, key=page):
-            st.session_state.current_page = page
-            st.rerun()
+    .top-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 0.5rem;
+    }
     
-    st.markdown("---")
+    .nav-item {
+        flex: 1;
+        text-align: center;
+        padding: 0.8rem 1rem;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.8);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid transparent;
+    }
+    
+    .nav-item:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .nav-item.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .nav-item.active::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shine 3s infinite;
+    }
+    
+    @keyframes shine {
+        0% { left: -100%; }
+        20% { left: 100%; }
+        100% { left: 100%; }
+    }
+    
+    /* Logo and title section */
+    .nav-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .nav-logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    .nav-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .nav-item {
+            font-size: 0.9rem;
+            padding: 0.5rem;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Top Navigation Bar
+st.markdown("""
+<div class="top-nav-container">
+    <div class="top-nav">
+""", unsafe_allow_html=True)
+
+# Navigation items
+nav_options = {
+    "📊 Dashboard": "Dashboard",
+    "🔮 Predictor": "Predictor", 
+    "📈 Analytics": "Analytics",
+    "📚 Explorer": "Explorer",
+    "⚙️ Settings": "Settings"
+}
+
+# Create navigation buttons
+cols = st.columns(len(nav_options))
+for idx, (display_name, page_name) in enumerate(nav_options.items()):
+    with cols[idx]:
+        if st.button(
+            display_name,
+            key=f"nav_{page_name}",
+            use_container_width=True,
+            type="primary" if st.session_state.current_page == page_name else "secondary"
+        ):
+            st.session_state.current_page = page_name
+            st.rerun()
+
+st.markdown("</div></div>", unsafe_allow_html=True)
     
     # Model Status Card
     if model_info:
